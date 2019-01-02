@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Your Wall</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Coding Dojo Wall</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href={%url 'wall:my_newsFeed' %}>News Feed</a></li>
+                <li><a href={%url 'wall:my_clear' %}>logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Your Messages</h2>
+        <p><strong>Select one to see content</strong></p>
+        <div class="panel-group" id="accordion">
+            {%for message in myMessages%}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#{{message.id}}">{{message.sender.first_name}}   {{message.created_at}}</a>
+                    </h4>
+                </div>
+                <div id="{{message.id}}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        {{message.text}}
+                    </div>
+                    <form class="comment-form" action={%url 'wall:my_comment' %} method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="msg_id" value={{message.id}} />
+                        <label for="comment">Post a comment:</label>
+                        <textarea class="form-control" rows="2" id="comment" name="content"></textarea>
+                        <button type="submit" class="btn btn-primary"> Comment </button>
+                    </form>
+                    {%if message.comment %}
+                    {%for comment in message.comment.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p class="comment-text">{{comment.comment}}</p>
+                            <p class="comment-text">{{comment.updater_id.first_name}}</p>
+                            <p class="comment-text">{{comment.created_at}}</p>
+                        </div>
+                    </div>
+                    {%endfor%}
+                    {%endif%}
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-group">
+            <form action={%url 'wall:my_send' %} method="post" id="cmtform">
+                {% csrf_token %}
+                <label for="message">Send a Message:</label>
+                <select class="form-control" id="sel1" name="ToWho">
+                    {%for user in all_but_me%}
+                    <option value={{user.id}}>{{user.first_name}}</option>
+                    {%endfor%}
+                </select>
+                <input type="hidden" name="id" value="{{id}}" />
+                <textarea class="form-control" rows="5" id="message" name="content"></textarea>
+                <button type="submit" class="btn btn-primary"> Send </button>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

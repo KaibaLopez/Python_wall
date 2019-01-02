@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>
+            Login
+        </h2>
+        <!-- login form -->
+        <form action={%url 'wall:my_login' %} method="post">
+            {% csrf_token %}
+            {% for message in messages %}
+            {% if message.tags == "login error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+            <div class="form-group">
+                <label for="usr">Email:</label>
+                <input type="text" class="form-control" id="usr" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" name="password">
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+        <!-- registration form -->
+        <form action={%url 'wall:my_register' %} method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="firstname">First Name:</label>
+                <input type="text" class="form-control" id="firstname" name="first_name">
+            </div>
+            {% for message in messages %}
+            {% if message.tags == "first_name error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="lastname">Last Name:</label>
+                <input type="text" class="form-control" id="lastname" name="last_name">
+            </div>
+            {% for message in messages %}
+            {% if message.tags == "last_name error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            {% for message in messages %}
+            {% if message.tags == "email error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" name="password">
+            </div>
+            {% for message in messages %}
+            {% if message.tags == "password error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+            <div class="form-group">
+                <label for="confpwd">Confirm Password:</label>
+                <input type="password" class="form-control" id="confpwd" name="confirm_password">
+            </div>
+            {% for message in messages %}
+            {% if message.tags == "confirm_password error" %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {%endif%}
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Register</button>
+        </form>
+    </div>
+</body>
+</html>

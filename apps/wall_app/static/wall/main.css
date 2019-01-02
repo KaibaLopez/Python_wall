@@ -1,0 +1,17 @@
+﻿
+body
+{
+
+}
+
+.comment-footer {
+    font-size: 6pt;
+    display:inline-block;
+    color:cadetblue;
+    text-align:right;
+}
+
+.commentLabel{
+    font-size:12pt;
+    color:darkcyan;
+}
